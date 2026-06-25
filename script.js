@@ -55,8 +55,6 @@ searchInput.addEventListener('input', highlightSearch);
 /* =========================================
    MESSAGE DISPLAY FUNCTIONS
    ========================================= */
-
-
 function addBotMessage(message) {
     const messageRow = document.createElement("div");
 
@@ -66,17 +64,6 @@ function addBotMessage(message) {
     const messageBubble = document.createElement("div");
     messageBubble.className = "message-bubble";
     messageBubble.style.backgroundColor = "#333";
-    let safeMessage = message || "";
-
-    // Convert markdown ** pairs to bold tags and break to the next line
-    let formattedMessage = safeMessage.replace(/\*\*(.*?)\*\*/g, '<br><strong>$1</strong><br>');
-
-    // Catch any leftover single "**" markers and break lines
-    formattedMessage = formattedMessage.replace(/\*\*/g, '<br>');
-
-    // Inject as HTML so the browser parses the <br> tags
-    messageBubble.innerHTML = formattedMessage;
-
     messageBubble.textContent = message;
     messageRow.appendChild(messageBubble);
     chatContainer.appendChild(messageRow);
@@ -152,15 +139,21 @@ function addNavMessage(message) {
 
 function addChatMessage(message) {
     const messageRow = document.createElement("div");
-    messageRow.className = "chat-message chat-message-bot";
+    messageRow.className = "chat-message chat-message-user";
     const messageBubble = document.createElement("div");
     messageBubble.className = "message-bubble";
-
-    // Clean fallback to string in case it's undefined or null
-
+    messageBubble.textContent = message;
     messageRow.appendChild(messageBubble);
     chatContainer.appendChild(messageRow);
     chatContainer.scrollTop = chatContainer.scrollHeight;
+    // Look for text wrapped in ** pairs, make it bold, and break lines around it
+let formattedMessage = message.replace(/\*\*(.*?)\*\*/g, '<br><strong>$1</strong><br>');
+
+// Catch any stray or leftover "**" signs and convert them to line breaks too
+formattedMessage = formattedMessage.replace(/\*\*/g, '<br>');
+
+// Set innerHTML instead of textContent so the browser reads the <br> tags
+messageBubble.innerHTML = formattedMessage;
 }
 
 /* =========================================
