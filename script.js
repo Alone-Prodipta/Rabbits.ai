@@ -57,6 +57,18 @@ searchInput.addEventListener('input', highlightSearch);
    ========================================= */
 function addBotMessage(message) {
     const messageRow = document.createElement("div");
+    messageRow.className = "chat-message chat-message-bot";
+    const messageBubble = document.createElement("div");
+    messageBubble.className = "message-bubble";
+    messageBubble.style.backgroundColor = "#333";
+    messageBubble.textContent = message;
+    messageRow.appendChild(messageBubble);
+    chatContainer.appendChild(messageRow);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+function addBotMessage(message) {
+    const messageRow = document.createElement("div");
 
     op.style.display = "none";
 
@@ -137,8 +149,7 @@ function addNavMessage(message) {
     });
 }
 
-function addBotMessage(message) 
-{
+function addChatMessage(message) {
     const messageRow = document.createElement("div");
     messageRow.className = "chat-message chat-message-bot"; 
     const messageBubble = document.createElement("div");
